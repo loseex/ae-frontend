@@ -72,7 +72,7 @@ class Fitter {
       this.initialize();
 
       // ! temp solution
-      this.eventEmitter.emit(Events.MOUNT, Applications.AUTHENTICATION);
+      this.eventEmitter.emit(Events.MOUNT, Applications.APPLICATION);
     } catch (error) {
       console.error("Bootstrap failed", error);
     }

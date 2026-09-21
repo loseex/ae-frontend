@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { ButtonHTMLAttributes } from "vue";
-interface ButtonProps extends /* @vue-ignore */ ButtonHTMLAttributes {
-  label?: string;
-}
+interface ButtonProps extends /* @vue-ignore */ ButtonHTMLAttributes {}
 const props = defineProps<ButtonProps>();
 </script>
 
 <template>
-  <button v-bind="props">{{ props.label }}</button>
+  <button v-bind="props">
+    <slot />
+  </button>
 </template>
 
 <style scoped>
@@ -34,8 +34,8 @@ button {
     color 0.15s ease-in-out,
     box-shadow 0.15s ease-in-out,
     transform 0.05s ease-in-out;
-  background-color: var(--primary);
-  color: var(--primary-foreground);
+  background-color: var(--primary-foreground);
+  color: var(--primary);
 }
 
 button:hover {
