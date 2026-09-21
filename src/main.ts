@@ -1,4 +1,4 @@
-import { createApp } from "vue";
-import App from "./App.vue";
+import "@/shared/styles/global.css";
+import Core from "@/app/core";
 
-createApp(App).mount("#app");
+Core.setup();
