@@ -2,7 +2,7 @@ import type { AxiosInstance } from "axios";
 import axios from "axios";
 
 class Http {
-  private static readonly baseURL: string = import.meta.env.BASE_URL;
+  private static readonly baseURL: string = import.meta.env.VITE_BASE_URL;
 
   static initialize(): AxiosInstance {
     return axios.create({
