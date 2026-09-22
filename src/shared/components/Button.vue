@@ -43,7 +43,7 @@ button:hover {
 }
 
 button:disabled {
-  opacity: 80%;
+  opacity: 60%;
   pointer-events: none;
 }
 </style>

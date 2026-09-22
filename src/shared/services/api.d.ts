@@ -6,8 +6,8 @@ namespace API {
 
   export namespace User {
     export enum Role {
-      USER,
-      ADMIN,
+      USER = "USER",
+      ADMIN = "ADMIN",
     }
 
     export interface T {
@@ -74,6 +74,16 @@ namespace API {
         status: API.Order.Status;
         comment: string;
       }
+    }
+
+    export namespace Delete {
+      export const URL = "/api/v1/orders/:id";
+    }
+
+    export namespace Patch {
+      export const URL = "/api/v1/orders/:id";
+
+      export type RequestBody = Partial<Omit<API.Order.T, "id">>;
     }
   }
 }

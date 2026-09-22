@@ -4,6 +4,7 @@ import { useOrdersStoreAPI } from "@/app/pinia/stores/orders.store";
 import Button from "@/shared/components/Button.vue";
 import Input from "@/shared/components/Input.vue";
 import API from "@/shared/services/api.d";
+import { required } from "@/shared/utils/form.utils";
 import { useForm } from "@tanstack/vue-form";
 import { useMutation } from "@tanstack/vue-query";
 
@@ -35,12 +36,25 @@ const form = useForm({
       date: formatDate(new Date()),
     }),
 });
+
+const canSubmit = form.useSelector((state) => {
+  const name = state.values.name?.trim();
+  const address = state.values.address?.trim();
+  return Boolean(name && address);
+});
 </script>
 
 <template>
   <form @submit.stop.prevent="form.handleSubmit">
     <div style="display: flex; flex-direction: column; gap: 0.2rem">
-      <form.Field name="name">
+      <form.Field
+        name="name"
+        :validators="{
+          onChange: required('Введите имя'),
+          onBlur: required('Введите имя'),
+          onSubmit: required('Введите имя'),
+        }"
+      >
         <template v-slot="{ field, state }">
           <label :htmlFor="field.name">Ваше имя:</label>
           <Input
@@ -62,7 +76,14 @@ const form = useForm({
     </div>
 
     <div style="display: flex; flex-direction: column; gap: 0.2rem">
-      <form.Field name="address">
+      <form.Field
+        name="address"
+        :validators="{
+          onChange: required('Введите адрес'),
+          onBlur: required('Введите адрес'),
+          onSubmit: required('Введите адрес'),
+        }"
+      >
         <template v-slot="{ field, state }">
           <label :htmlFor="field.name">Ваш адрес:</label>
           <Input
@@ -105,6 +126,8 @@ const form = useForm({
       </form.Field>
     </div>
 
-    <Button style="width: 100%" :disabled="isPending">Создать заказ</Button>
+    <Button style="width: 100%" :disabled="isPending || !canSubmit">
+      Создать заказ
+    </Button>
   </form>
 </template>

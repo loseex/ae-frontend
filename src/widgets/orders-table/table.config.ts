@@ -1,5 +1,6 @@
 import type { DataTableColumn } from "@/shared/components/data-table";
 import type API from "@/shared/services/api";
+import OrdersTableActions from "./orders-table-actions.vue";
 
 export const columns: DataTableColumn<API.Order.T>[] = [
   {
@@ -27,5 +28,13 @@ export const columns: DataTableColumn<API.Order.T>[] = [
   {
     key: "comment",
     title: "Комментарий",
+  },
+  {
+    key: "id",
+    title: "",
+    render: {
+      component: OrdersTableActions,
+      props: (ctx) => ({ ...ctx }),
+    },
   },
 ];

@@ -2,7 +2,7 @@ import Core from "@/app/core";
 import Authenticator from "@/app/core/api/authenticator.api";
 import { Applications, Events } from "@/app/core/core.d";
 import { authenticate, me } from "@/app/core/http/auth.http";
-import type API from "@/shared/services/api.d";
+import API from "@/shared/services/api.d";
 import { defineStore } from "pinia";
 
 type State = {
@@ -15,6 +15,7 @@ export const useAccountStore = defineStore("pinia::api::account", {
     value: undefined,
     loading: false,
   }),
+
   actions: {
     async authenticate(data: API.Authentication.Authenticate.RequestBody) {
       this.loading = true;
@@ -49,6 +50,10 @@ export const useAccountStore = defineStore("pinia::api::account", {
     logout() {
       void Authenticator.reset();
       Core.eventEmitter.emit(Events.MOUNT, Applications.AUTHENTICATION);
+    },
+
+    isAllowed(): boolean {
+      return this.value?.role === API.User.Role.ADMIN;
     },
   },
 });
