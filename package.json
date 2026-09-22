@@ -4,9 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "concurrently -k -n \"vite,server\" -c \"cyan,magenta\" \"vite\" \"pnpm dev:server\"",
+    "dev:server": "node server-placeholder/server.js",
     "build": "vue-tsc -b && vite build",
-    "preview": "vite preview"
+    "preview": "concurrently -k -n \"preview,server\" -c \"cyan,magenta\" \"vite preview\" \"pnpm dev:server\""
   },
   "dependencies": {
     "@tanstack/vue-form": "^1.33.5",
@@ -20,6 +21,7 @@
     "@types/node": "^24.13.3",
     "@vitejs/plugin-vue": "^6.0.8",
     "@vue/tsconfig": "^0.9.1",
+    "concurrently": "^10.0.5",
     "typescript": "~6.0.2",
     "vite": "^8.3.0",
     "vue-tsc": "^3.3.11"
