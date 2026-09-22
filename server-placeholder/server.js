@@ -19,10 +19,11 @@ const SECRET_KEY = "your-super-secret-key-change-me";
 const DB_PATH = path.join(__dirname, "database.json");
 
 const router = jsonServer.router(DB_PATH);
-const middlewares = jsonServer.defaults();
+const middlewares = jsonServer.defaults({ bodyParser: false });
 
 app.use(middlewares);
-app.use(express.json());
+
+app.use("/api/v1/auth", express.json());
 
 app.post("/api/v1/auth/authenticate", (req, res) => {
   const { name, password } = req.body;

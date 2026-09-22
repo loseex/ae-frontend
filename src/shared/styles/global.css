@@ -26,4 +26,8 @@
     background-color: var(--background) !important;
     color: var(--foreground) !important;
   }
+
+  label {
+    font-size: 14px;
+  }
 }

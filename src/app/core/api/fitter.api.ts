@@ -4,13 +4,23 @@ import {
   loadApplication,
   loadAuthenticationApplication,
 } from "@/app/core/__coregen.modules";
-import { createApp, type App as VueApp } from "vue";
+import {
+  createApp,
+  defineComponent,
+  h,
+  shallowRef,
+  type App as VueApp,
+} from "vue";
 import { router } from "@/app/router";
+import { pinia } from "@/app/pinia";
+import { VueQueryPlugin } from "@tanstack/vue-query";
 
 class Fitter {
   private readonly root = "app";
   private app: VueApp | null = null;
   private readonly eventEmitter = Core.eventEmitter;
+
+  private readonly currentComponent = shallowRef<Component | null>(null);
 
   private readonly applicationModules: Record<
     Applications,
@@ -26,17 +36,28 @@ class Fitter {
     return node as HTMLDivElement;
   }
 
-  private mountApplication(component: Component): void {
+  private createRootComponent() {
+    const currentComponent = this.currentComponent;
+    return defineComponent({
+      name: "FitterRoot",
+      setup() {
+        return () => {
+          const component = currentComponent.value;
+          return component ? h(component) : null;
+        };
+      },
+    });
+  }
+
+  private initializeApp(): void {
+    if (this.app) return;
+
     const container = this.getRootNode();
-
-    if (this.app) {
-      this.app.unmount();
-      this.app = null;
-    }
-
-    this.app = createApp(component);
+    this.app = createApp(this.createRootComponent());
 
     this.app.use(router);
+    this.app.use(pinia);
+    this.app.use(VueQueryPlugin);
 
     this.app.mount(container);
   }
@@ -45,8 +66,10 @@ class Fitter {
     applicationKey: Applications,
   ): Promise<void> {
     try {
+      this.initializeApp();
+
       const component = await this.applicationModules[applicationKey];
-      this.mountApplication(component);
+      this.currentComponent.value = component;
     } catch (error) {
       console.error(`Failed to load application '${applicationKey}'`, error);
       throw new Error(
@@ -64,18 +87,20 @@ class Fitter {
   }
 
   private initialize(): void {
+    this.initializeApp();
     this.setupEventListeners();
   }
 
   public bootstrap(): void {
     try {
       this.initialize();
-
-      // ! temp solution
-      this.eventEmitter.emit(Events.MOUNT, Applications.APPLICATION);
     } catch (error) {
       console.error("Bootstrap failed", error);
     }
+  }
+
+  public get vueApp(): VueApp | null {
+    return this.app;
   }
 }
 

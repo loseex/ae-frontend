@@ -2,6 +2,9 @@
 import Button from "@/shared/components/Button.vue";
 import { NavbarRouterLinks } from "./navbar.const";
 import AlertDialog from "@/shared/components/AlertDialog.vue";
+import { useAccountStore } from "@/app/pinia/stores/account.store";
+
+const store = useAccountStore();
 </script>
 
 <template>
@@ -12,9 +15,11 @@ import AlertDialog from "@/shared/components/AlertDialog.vue";
       </template>
     </section>
     <section>
+      <span>{{ store.value?.name }}</span>
       <AlertDialog
         heading="Вы уверенны что хотите выйти из текущего аккаунта?"
         description="Войти обратно можно будет в любой момент."
+        @submit="store.logout"
       >
         <Button>Выйти из аккаунта</Button>
       </AlertDialog>
@@ -38,6 +43,10 @@ import AlertDialog from "@/shared/components/AlertDialog.vue";
   justify-content: start;
   align-items: center;
   gap: 2rem;
+}
+
+.navbar section span {
+  color: var(--primary-foreground) !important;
 }
 
 .navbar section a {

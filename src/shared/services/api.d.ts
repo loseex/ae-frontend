@@ -1,4 +1,9 @@
 namespace API {
+  export const QueryKeys = {
+    Account: "Account",
+    Orders: "Orders",
+  };
+
   export namespace User {
     export enum Role {
       USER,
@@ -13,6 +18,16 @@ namespace API {
   }
 
   export namespace Authentication {
+    export namespace Me {
+      export const URL = "/api/v1/auth/me";
+
+      export interface Response {
+        user: string;
+        name: string;
+        role: API.User.Role;
+      }
+    }
+
     export namespace Authenticate {
       export const URL = "/api/v1/auth/authenticate";
 
@@ -31,7 +46,6 @@ namespace API {
   export namespace Order {
     export enum Status {
       NEW = "Новый",
-      IN_WORK = "В работе",
       DONE = "Выполнен",
     }
 
@@ -47,14 +61,11 @@ namespace API {
     export namespace GetAll {
       export const URL = "/api/v1/orders";
 
-      export interface Response {
-        total: number;
-        values: API.Order.T[];
-      }
+      export type Response = API.Order.T[];
     }
 
     export namespace PostCreate {
-      export const URL = "/api/v1/orders/create";
+      export const URL = "/api/v1/orders";
 
       export interface RequestBody {
         name: string;

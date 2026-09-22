@@ -1,3 +1,4 @@
+import Authenticator from "./api/authenticator.api";
 import EventEmitter from "./api/event-emitter.api";
 import Fitter from "./api/fitter.api";
 import Http from "./api/http.api";
@@ -12,6 +13,8 @@ class Core {
     const app = new Core();
 
     app.fitter.bootstrap();
+
+    Authenticator.initialize();
 
     return void 0;
   }
