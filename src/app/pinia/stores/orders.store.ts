@@ -24,7 +24,7 @@ export const useOrdersStoreAPI = defineStore("pinia::api::orders", {
   }),
 
   actions: {
-    async apiFetch(params: URLSearchParams) {
+    async apiFetch() {
       this.loading = true;
       this.error = null;
 
