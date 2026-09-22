@@ -1,5 +1,5 @@
 import type { DataTableColumn } from "@/shared/components/data-table";
-import type API from "@/shared/services/api";
+import API from "@/shared/services/api.d";
 import OrdersTableActions from "./orders-table-actions.vue";
 
 export const columns: DataTableColumn<API.Order.T>[] = [
@@ -24,6 +24,8 @@ export const columns: DataTableColumn<API.Order.T>[] = [
   {
     key: "status",
     title: "Статус",
+    cellClass: ({ value }) =>
+      value === API.Order.Status.DONE ? "is-done" : undefined,
   },
   {
     key: "comment",

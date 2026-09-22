@@ -64,6 +64,16 @@ function getCellValue(column: DataTableColumn<T>, row: T): unknown {
   return column.value ? column.value(row) : getByPath(row, column.key);
 }
 
+function getCellClass(
+  column: DataTableColumn<T>,
+  row: T,
+  index: number,
+): string | string[] | undefined {
+  const c = column.cellClass;
+  if (!c) return undefined;
+  return typeof c === "function" ? c(getContext(column, row, index)) : c;
+}
+
 function getContext(
   column: DataTableColumn<T>,
   row: T,
@@ -304,6 +314,7 @@ const displayedRows = computed<T[]>(() =>
             v-for="column in columns"
             :key="column.key"
             class="dt__td"
+            :class="getCellClass(column, row, index)"
             :style="{ textAlign: column.align }"
           >
             <slot

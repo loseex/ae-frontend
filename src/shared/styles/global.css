@@ -30,4 +30,8 @@
   label {
     font-size: 14px;
   }
+
+  .is-done {
+    color: green !important;
+  }
 }

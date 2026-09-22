@@ -37,6 +37,7 @@ export interface DataTableColumn<T = any> {
   align?: "left" | "center" | "right";
   value?: (row: T) => unknown;
   render?: ColumnRender<T>;
+  cellClass?: string | ((ctx: CellContext<T>) => string | string[] | undefined);
   sort?: boolean | SortComparator<T>;
   search?: boolean | ColumnSearchOptions<T>;
 }
